@@ -1,6 +1,6 @@
 const assert = require('assert');
 const expect = require('chai').expect;
-
+const sinon = require('sinon');
 const Math = require('../src/math.js');
 
 describe('Math class', function(){
@@ -31,13 +31,13 @@ describe('Math class', function(){
         });
     }); 
 // adicionando testes pendentes de ecrita
-it('Multiply numbers');
+    it('Multiply numbers');
 // utilizando o "it.only" voce forçar o mocha a executar apenas um teste
 // utilizando o "it.skip" voce forçar o mocha a IGNORAR o teste
 
 //usando expect para validar a existencia de propriedades em objetos
 
-it('Validate name in object', function () {
+    it('Validate name in object', function () {
         const obj = {
             name: 'Renato Soares'
         };
@@ -50,4 +50,20 @@ it('Validate name in object', function () {
         expect(obj).to.equal(obj2); // comparando objetos apenas em objetos clonados
         expect(obj).to.deep.equal(obj3); // comparando objetos de forma completa / profunda
     });
+
+    it.only('Calls req with sum and index values', function() {
+         const req = {};
+         const res = {
+            load: sinon.spy()
+         };
+         const math = new Math();
+         math.printSum(req,res,5,5);
+
+         expect(res.load.calledOnce).to.be.true; // verifica se a função foi chamada corretamente
+         expect(res.load.args[0][0]).to.equal('index') // verifica se o argumento na posição 0,0 é index
+         expect(res.load.args[0][1]).to.equal(10) // verifica se o segundo argumento é p resultado da soma
+
+    });
+
+
 });
