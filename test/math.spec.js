@@ -1,4 +1,6 @@
 const assert = require('assert');
+const expect = require('chai').expect;
+
 const Math = require('../src/math.js');
 
 describe('Math class', function(){
@@ -14,6 +16,7 @@ describe('Math class', function(){
         value = 5;
         console.log("Value = " + value);
         assert.strictEqual(math.sum(5,5),10);
+        
     }); 
 
 // para testes em funções assincronas utilizar o done
@@ -21,8 +24,9 @@ describe('Math class', function(){
         const math = new Math(); 
         console.log("Value ao executar a função hooks beforeEach = " + value); // para verificar hooks
         this.timeout(3000); //opcional para requisições com mais de 2000ms
-        math.sumAssync(5,5, value => {
-            assert.strictEqual(value,10);
+        math.sumAssync(5,5, passValue => {
+            //assert.strictEqual(value,10);
+            expect(passValue).to.equal(10);  // utilizando chai.expect
             done();
         });
     }); 
@@ -31,5 +35,19 @@ it('Multiply numbers');
 // utilizando o "it.only" voce forçar o mocha a executar apenas um teste
 // utilizando o "it.skip" voce forçar o mocha a IGNORAR o teste
 
+//usando expect para validar a existencia de propriedades em objetos
 
+it('Validate name in object', function () {
+        const obj = {
+            name: 'Renato Soares'
+        };
+        const obj2 = obj;
+        const obj3 = {
+            name: 'Renato Soares'
+        };
+        expect(obj).to.have.property('name'); // verifica a existencia da propriedade
+        expect(obj).to.have.property('name').equal('Renato Soares'); // verifica o valor da propriedade
+        expect(obj).to.equal(obj2); // comparando objetos apenas em objetos clonados
+        expect(obj).to.deep.equal(obj3); // comparando objetos de forma completa / profunda
+    });
 });
